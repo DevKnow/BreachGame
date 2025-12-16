@@ -1,0 +1,9 @@
+﻿id,commands
+0,cmd_probe
+,cmd_injector
+,cmd_sniper
+,cmd_cracker
+,cmd_scanner
+,cmd_firewall
+,cmd_booster
+,cmd_cache
