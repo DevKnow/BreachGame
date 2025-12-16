@@ -24,6 +24,17 @@ public class ProgramCardView : MonoBehaviour
         SetLocked();
     }
 
+    public void SetHighlightened(bool highlighted)
+    {
+        if (highlighted)
+        {
+            _border.color = ColorPalette.Highlightened;
+            return;
+        }
+
+        SetLocked();
+    }
+
     public void SetSelected(bool selected)
     {
         if (selected)

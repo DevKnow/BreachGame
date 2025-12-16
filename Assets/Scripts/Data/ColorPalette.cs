@@ -12,6 +12,7 @@ public class ColorPalette : ScriptableObject
     [Header("Border Colors")]
     [SerializeField] Color _borderDefault;
     [SerializeField] Color _borderSelected;
+    [SerializeField] Color _borderHighlightened;
     [SerializeField] Color _borderLocked;
 
     [Header("Text Colors")]
@@ -36,6 +37,7 @@ public class ColorPalette : ScriptableObject
     }
 
     public static Color Selected => Instance._borderSelected;
+    public static Color Highlightened => Instance._borderHighlightened;
     public static Color BorderDefault => Instance._borderDefault;
     public static Color LockedBorder => Instance._borderLocked;
 }
