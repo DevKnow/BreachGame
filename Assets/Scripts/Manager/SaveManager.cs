@@ -108,7 +108,9 @@ public class SaveManager : MonoBehaviour
 
     public List<string> GetUnlockedPrograms()
     {
-        return _saveData.unlockedPrograms;
+        // TODO
+        return new List<string>() { "proc_ghost", "proc_daemon", "proc_proxy" };
+        //return _saveData.unlockedPrograms;
     }
 
     public List<string> GetDiscoveredPrograms()

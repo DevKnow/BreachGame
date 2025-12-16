@@ -6,6 +6,14 @@ using TMPro;
 
 public class LobbyView : MonoBehaviour
 {
+    private enum PANEL_INDEX
+    {
+        PROGRAM = 0,
+        MODULE = 1,
+        BUILD = 2,
+        COUNT
+    }
+
     [Header("Panels")]
     [SerializeField] ProgramSelectPanel _programPanel;
     //[SerializeField] ModuleSelectPanel _modulePanel;
@@ -19,12 +27,12 @@ public class LobbyView : MonoBehaviour
     /// <summary>
     /// 0: Program 1: Module 2: Build
     /// </summary>
-    private int _currentPanelIndex = 0;
+    private PANEL_INDEX _currentPanel = PANEL_INDEX.PROGRAM;
 
-    public void Initialize(SaveManager saveManager)
+    public void Initialize()
     {
-        _saveManager = saveManager;
-        _currentPanelIndex = 0;
+        _saveManager = GameManager.Instance.SaveManager;
+        _currentPanel = PANEL_INDEX.PROGRAM;
 
         #region Initialize Program Panel
 
@@ -46,5 +54,55 @@ public class LobbyView : MonoBehaviour
     public void OnProgramSelected(ProgramData programData)
     {
         _selectedProgram = programData;
+    }
+
+    public void OnNavigate(int direction)
+    {
+        switch (_currentPanel)
+        {
+            case PANEL_INDEX.PROGRAM:
+                _programPanel.MoveFocus(direction);
+                break;
+            case PANEL_INDEX.MODULE:
+                break;
+            case PANEL_INDEX.BUILD:
+                break;
+        }
+    }
+
+    public void OnSwitchPanel(int direction)
+    {
+        var index = (int)_currentPanel + direction;
+        if (index < 0)
+        {
+            _currentPanel = PANEL_INDEX.BUILD;
+        }
+        else if (index >= (int)PANEL_INDEX.COUNT)
+        {
+            _currentPanel = PANEL_INDEX.PROGRAM;
+        }
+        else
+        {
+            _currentPanel = (PANEL_INDEX)index;
+        }
+    }
+
+    public void OnConfirm()
+    {
+        switch (_currentPanel)
+        {
+            case PANEL_INDEX.PROGRAM:
+                _programPanel.ConfirmSelection();
+                break;
+            case PANEL_INDEX.MODULE:
+                break;
+            case PANEL_INDEX.BUILD:
+                break;
+        }
+    }
+
+    public void OnCancel()
+    {
+        // TODO
     }
 }

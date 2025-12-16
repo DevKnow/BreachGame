@@ -76,7 +76,7 @@ public class ProgramSelectPanel : MonoBehaviour
     /// Moves the focus highlight up or down.
     /// </summary>
     /// <param name="direction">-1 for up, +1 for down.</param>
-    public void MoveSelection(int direction)
+    public void MoveFocus(int direction)
     {
         var newFocus = Mathf.Clamp(_focusIndex + direction, 0, _programList.Count - 1);
         if (newFocus == _focusIndex)
