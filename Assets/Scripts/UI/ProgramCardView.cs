@@ -1,16 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ProgramCardView : MonoBehaviour
 {
+    private const string _INT = "integrity";
+
     [SerializeField] private TMP_Text _name;
     [SerializeField] private TMP_Text _status;
     [SerializeField] private TMP_Text _pid;
     [SerializeField] private TMP_Text _int;
-    [SerializeField] private TMP_Text _pwrText;
     [SerializeField] private Image _border;
 
     private ProgramData _data;
@@ -19,44 +21,36 @@ public class ProgramCardView : MonoBehaviour
     public void Bind(ProgramData data)
     {
         _data = data;
+        _name.text = $"{data.GetName()}.exe";
+        // TODO
+        _pid.text = "├─ PID: 0x3A7F";
+        _int.text = $"└─ {DataLoader.GetUIText(_INT).GetName()}: {data.GetInt()}";
+
         // TODO
         _locked = false;
-        SetLocked();
     }
 
-    public void SetHighlightened(bool highlighted)
+    public void SetState(bool isSelected, bool isFocused)
     {
-        if (highlighted)
+        // 텍스트
+        _status.text = isSelected ? "[SELECTED]" : "[UNLOCKED]";
+
+        // Border - focused 우선
+        if (_locked)
+        {
+            _status.text = "[LOCKED]";
+            _border.color = ColorPalette.LockedBorder;
+            return;
+        }
+
+        if (isFocused)
         {
             _border.color = ColorPalette.Highlightened;
             return;
         }
 
-        SetLocked();
-    }
-
-    public void SetSelected(bool selected)
-    {
-        if (selected)
-        {
-            _border.color = ColorPalette.Selected;
-            _status.text = "[SELECTED]";
-            return;
-        }
-
-        SetLocked();
-    }
-
-    public void SetLocked()
-    {
-        if (_locked)
-        {
-            _border.color = ColorPalette.LockedBorder;
-            _status.text = "[LOCKED]";
-            return;
-        }
-
-        _border.color = ColorPalette.BorderDefault;
-        _status.text = "[UNLOCKED]";
+        _border.color = isSelected
+            ? ColorPalette.Selected
+            : ColorPalette.BorderDefault;
     }
 }

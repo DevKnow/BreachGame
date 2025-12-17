@@ -72,6 +72,19 @@ public class LobbyView : MonoBehaviour
 
     public void OnSwitchPanel(int direction)
     {
+        switch (_currentPanel)
+        {
+            case PANEL_INDEX.PROGRAM:
+                _programPanel.OnExit();
+                break;
+
+            case PANEL_INDEX.MODULE:
+                break;
+
+            case PANEL_INDEX.BUILD:
+                break;
+        }
+
         var index = (int)_currentPanel + direction;
         if (index < 0)
         {
@@ -84,6 +97,19 @@ public class LobbyView : MonoBehaviour
         else
         {
             _currentPanel = (PANEL_INDEX)index;
+        }
+
+        switch (_currentPanel)
+        {
+            case PANEL_INDEX.PROGRAM:
+                _programPanel.OnEnter();
+                break;
+
+            case PANEL_INDEX.MODULE:
+                break;
+
+            case PANEL_INDEX.BUILD:
+                break;
         }
     }
 

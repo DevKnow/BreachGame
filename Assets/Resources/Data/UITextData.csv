@@ -1,0 +1,2 @@
+﻿id,nameKo,nameEn,descKo,descEn
+integrity,무결성,INTEGRITY,수치가 0이 되면 프로그램이 다운된다,Program crashes when reduced to 0.

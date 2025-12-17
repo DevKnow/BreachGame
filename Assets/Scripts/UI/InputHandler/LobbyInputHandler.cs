@@ -36,7 +36,7 @@ public class LobbyInputHandler : MonoBehaviour
     {
         var value = ctx.ReadValue<Vector2>();
         if (value.y is var y && y != 0)
-            _lobbyView.OnNavigate(y > 0 ? 1 : -1);
+            _lobbyView.OnNavigate(y > 0 ? -1 : 1);
     }
 
     private void OnSwitchPanel(InputAction.CallbackContext ctx)

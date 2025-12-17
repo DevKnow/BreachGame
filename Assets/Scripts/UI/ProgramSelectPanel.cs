@@ -50,10 +50,11 @@ public class ProgramSelectPanel : MonoBehaviour
         _selectedIndex = -1;
         _scrollOffset = _focusIndex  = 0;
 
-        RefreshCards();
+        BindCards();
+        RefreshCardsState();
     }
 
-    private void RefreshCards()
+    private void BindCards()
     {
         for(int i=0, iMax = Count; i<iMax; i++)
         {
@@ -61,14 +62,18 @@ public class ProgramSelectPanel : MonoBehaviour
             
             var data = _programList[targetIndex];
             _cards[i].Bind(data);
-            
-            if(_selectedIndex == targetIndex)
-            {
-                _cards[i].SetSelected(true);
-                continue;
-            }
+        }
+    }
 
-            _cards[i].SetHighlightened(targetIndex == _focusIndex);
+    private void RefreshCardsState()
+    {
+        for (int i = 0, iMax = Count; i < iMax; i++)
+        {
+            var targetIndex = _scrollOffset + i;
+            _cards[i].SetState(
+               isSelected: targetIndex == _selectedIndex,
+               isFocused: targetIndex == _focusIndex
+           );
         }
     }
 
@@ -96,15 +101,12 @@ public class ProgramSelectPanel : MonoBehaviour
 
         if (isChanged)
         {
-            _focusIndex = newFocus;
-            RefreshCards();
+            BindCards();
         }
-        else
-        {
-            _cards[_focusIndex - _scrollOffset].SetHighlightened(false);
-            _cards[newFocus - _scrollOffset].SetHighlightened(true);
-            _focusIndex = newFocus;
-        }
+
+        _focusIndex = newFocus;
+
+        RefreshCardsState();
     }
 
     /// <summary>
@@ -114,20 +116,35 @@ public class ProgramSelectPanel : MonoBehaviour
     /// </summary>
     public void ConfirmSelection()
     {
-        if(_selectedIndex >= 0 &&
-            _selectedIndex >= _scrollOffset && _selectedIndex < _scrollOffset + Count)
-        {
-            _cards[_selectedIndex - _scrollOffset].SetSelected(false);
-        }
-
         if(_selectedIndex == _focusIndex)
         {
+            _selectedIndex = -1;
+            RefreshCardsState();
             return;
         }
 
         _selectedIndex = _focusIndex;
-        _cards[_focusIndex - _scrollOffset].SetSelected(true);
+        
+        RefreshCardsState();
 
         OnSelected?.Invoke(_programList[_selectedIndex]);
+    }
+
+    /// <summary>
+    /// Called when this panel becomes active.
+    /// </summary>
+    public void OnEnter()
+    {
+        _focusIndex = _scrollOffset;
+        RefreshCardsState();
+    }
+
+    /// <summary>
+    /// Called when leaving this panel.
+    /// </summary>
+    public void OnExit()
+    {
+        _focusIndex = -1;
+        RefreshCardsState();
     }
 }

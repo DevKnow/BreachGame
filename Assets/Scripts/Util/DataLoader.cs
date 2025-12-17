@@ -12,6 +12,7 @@ public static class DataLoader
     private static Dictionary<BuffKeyword, BuffData> _buffData;
     private static Dictionary<int, PoolData> _poolData;
     private static Dictionary<int, BattleData> _battleData;
+    private static Dictionary<string, UITextData> _uiTextData;
 
     public static void LoadAll()
     {
@@ -22,6 +23,7 @@ public static class DataLoader
         _buffData = LoadBuffData("Data/BuffData");
         _poolData = LoadPoolData("Data/PoolData");
         _battleData = LoadBattleData("Data/BattleData");
+        _uiTextData = LoadData<UITextData>("Data/UITextData");
     }
 
     private static Dictionary<string, T> LoadData<T>(string path) where T : new()
@@ -420,5 +422,13 @@ public static class DataLoader
         }
 
         return dict;
+    }
+
+    public static UITextData GetUIText(string id)
+    {
+        if (_uiTextData == null) LoadAll();
+        if (_uiTextData.TryGetValue(id, out var data)) return data;
+        Debug.LogError($"UITextData not found: {id}");
+        return null;
     }
 }
