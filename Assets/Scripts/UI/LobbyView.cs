@@ -144,7 +144,7 @@ public class LobbyView : MonoBehaviour
                 break;
 
             case PANEL_INDEX.MODULE:
-                _modulePanel.OnExit();
+                _modulePanel.OnEnter();
                 break;
 
             case PANEL_INDEX.BUILD:
