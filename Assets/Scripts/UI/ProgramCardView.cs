@@ -5,7 +5,7 @@ using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ProgramCardView : MonoBehaviour
+public class ProgramCardView : MonoBehaviour, IBindable<ProgramData>
 {
     private const string _INT = "integrity";
 
@@ -32,10 +32,9 @@ public class ProgramCardView : MonoBehaviour
 
     public void SetState(bool isSelected, bool isFocused)
     {
-        // 텍스트
         _status.text = isSelected ? "[SELECTED]" : "[UNLOCKED]";
 
-        // Border - focused 우선
+        // Border - focused first
         if (_locked)
         {
             _status.text = "[LOCKED]";

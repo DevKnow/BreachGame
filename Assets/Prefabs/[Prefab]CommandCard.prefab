@@ -549,13 +549,13 @@ MonoBehaviour:
   _clock: {fileID: 728928011048867217}
   _range: {fileID: 7509802543660454050}
   _atkGroup: {fileID: 4956014571061216227}
-  _atkLayout: {fileID: 0}
   _penetrationBonus: {fileID: 2819405360833113351}
   _payload: {fileID: 4207166554195623645}
   _criticalMultiplier: {fileID: 7572481671145551163}
+  _effect: {fileID: 8690547754123764937}
   _effectGroup: {fileID: 3456091260063434867}
   _effectLayout: {fileID: 3990597716396380584}
-  _effectParent: {fileID: 0}
+  _effectParent: {fileID: 9017803405672461989}
 --- !u!114 &324509877914955306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1544,6 +1544,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3784688234744855440, guid: bd305299b01faea498ab50a2f8dae2d9, type: 3}
   m_PrefabInstance: {fileID: 1261930394075167805}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8690547754123764937 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7572873291048933620, guid: bd305299b01faea498ab50a2f8dae2d9, type: 3}
+  m_PrefabInstance: {fileID: 1261930394075167805}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2467423245050042882
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using System.Linq;
+#endif
+
 public static class DataLoader
 {
     private static Dictionary<string, ProgramData> _programData;
@@ -13,6 +17,22 @@ public static class DataLoader
     private static Dictionary<int, PoolData> _poolData;
     private static Dictionary<int, BattleData> _battleData;
     private static Dictionary<string, UITextData> _uiTextData;
+
+
+#if UNITY_EDITOR
+    public static List<CommandData> CommandDatas
+    {
+        get
+        {
+            if(_commandData == null)
+            {
+                LoadAll();
+            }
+
+            return _commandData.Values.ToList();
+        }
+    }
+#endif
 
     public static void LoadAll()
     {

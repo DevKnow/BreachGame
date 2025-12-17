@@ -1,22 +1,20 @@
+using UnityEngine.UI;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class ModuleCardView : MonoBehaviour, IBindable<ModuleModel>
+public class ModuleCardView : MonoBehaviour, IBindable<CommandData>
 {
+    [Header("BorderLine")]
+    [SerializeField] private Image _border;
+
     [SerializeField] private CommandCardView _commandCard;
     [SerializeField] private Transform _patchParent;
     private List<PatchItemView> _patchList = new();
 
-    public void Bind(ModuleModel model)
+    public void Bind(CommandData data)
     {
-        _commandCard.Bind(model.Command.Data);
-
+        _commandCard.Bind(data);
         ClearPatchList();
-        var patches = model.InstalledPatches;
-        for (int i = 0, iMax = patches.Count; i < iMax; i++)
-        {
-            AddPatchItem(patches[i]);
-        }
     }
 
     private void ClearPatchList()
@@ -40,5 +38,18 @@ public class ModuleCardView : MonoBehaviour, IBindable<ModuleModel>
         }
 
         _patchList.Add(item);
+    }
+
+    public void SetState(bool isSelected, bool isFocused)
+    {
+        if (isFocused)
+        {
+            _border.color = ColorPalette.Highlightened;
+            return;
+        }
+
+        _border.color = isSelected
+            ? ColorPalette.Selected
+            : ColorPalette.BorderDefault;
     }
 }

@@ -6,6 +6,8 @@ public class CommandData
     public string id;
     public string nameKo = string.Empty;
     public string nameEn = string.Empty;
+    public string descKo = string.Empty;
+    public string descEn = string.Empty;
     public CommandType type = CommandType.None;
     public int minRange;
     public int maxRange;
@@ -21,7 +23,17 @@ public class CommandData
         {
             LANGUAGE.Ko => nameKo,
             LANGUAGE.En => nameEn,
-            _ => nameKo,
+            _ => nameEn,
+        };
+    }
+
+    public string[] GetDesc()
+    {
+        return SettingManager.Instance.Language switch
+        {
+            LANGUAGE.Ko => string.IsNullOrEmpty(descKo) ? null : descKo.Split('\n'),
+            LANGUAGE.En => string.IsNullOrEmpty(descEn) ? null : descEn.Split('\n'),
+            _ => string.IsNullOrEmpty(descEn) ? null : descEn.Split('\n'),
         };
     }
 
@@ -48,10 +60,5 @@ public class CommandData
     public string GetCriticalMultiplier()
     {
         return $"x{criticalMultiplier}";
-    }
-
-    public string[] GetEffects()
-    {
-        return effects;
     }
 }

@@ -5,21 +5,20 @@ using System.Collections.Generic;
 
 public class CommandCardView : MonoBehaviour, IBindable<CommandData>
 {
-    [Header("Header Section")]
+    [Header("HeaderSection")]
     [SerializeField] private Image _icon;
     [SerializeField] private TextMeshProUGUI _name;
 
-    [Header("Stats Section")]
+    [Header("StatsSection")]
     [SerializeField] private TextMeshProUGUI _clock;
     [SerializeField] private TextMeshProUGUI _range;
     private bool _atkToggle = true;
     [SerializeField] private CanvasGroup _atkGroup;
-    [SerializeField] private LayoutElement _atkLayout;
     [SerializeField] private TextMeshProUGUI _penetrationBonus;
     [SerializeField] private TextMeshProUGUI _payload;
     [SerializeField] private TextMeshProUGUI _criticalMultiplier;
 
-    [Header("Effects Section")]
+    [Header("EffectsSection")]
     private bool _effectToggle = true;
     [SerializeField] private CanvasGroup _effectGroup;
     [SerializeField] private LayoutElement _effectLayout;
@@ -53,7 +52,7 @@ public class CommandCardView : MonoBehaviour, IBindable<CommandData>
         }
 
         ClearEffectList();
-        if (data.GetEffects() is { } effectArray  && effectArray.Length > 0)
+        if (data.GetDesc() is { } effectArray  && effectArray.Length > 0)
         {
             SetEffectSectionVisible(true);
             for(int i = 0, iMax = effectArray.Length; i<iMax; i++)
@@ -74,7 +73,6 @@ public class CommandCardView : MonoBehaviour, IBindable<CommandData>
 
         _atkToggle = visible;
         _atkGroup.alpha = visible ? 1f : 0f;
-        _atkLayout.ignoreLayout = !visible;
     }
 
     private void SetEffectSectionVisible(bool visible)
@@ -102,5 +100,11 @@ public class CommandCardView : MonoBehaviour, IBindable<CommandData>
         effectItem.transform.SetParent(_effectParent, false);
         effectItem.SetDesc(effect);
         _effectList.Add(effectItem);
+    }
+
+    public void SetState(bool isSelected, bool isFocused)
+    {
+        // NO USE
+        throw new System.NotImplementedException();
     }
 }

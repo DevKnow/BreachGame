@@ -16,13 +16,14 @@ public class LobbyView : MonoBehaviour
 
     [Header("Panels")]
     [SerializeField] ProgramSelectPanel _programPanel;
-    //[SerializeField] ModuleSelectPanel _modulePanel;
+    [SerializeField] ModuleSelectPanel _modulePanel;
     //[SerializeField] BuildPanel _buildPanel;
 
     [Header("Data")]
     private SaveManager _saveManager;
 
     private ProgramData _selectedProgram;
+    private List<CommandData> _selectedModules = new ();
 
     /// <summary>
     /// 0: Program 1: Module 2: Build
@@ -36,24 +37,59 @@ public class LobbyView : MonoBehaviour
 
         #region Initialize Program Panel
 
-        var unlockedIds = _saveManager.GetUnlockedPrograms();
-        var programList = new List<ProgramData>(unlockedIds.Count);
+        var unlockedProgramIds = _saveManager.GetUnlockedPrograms();
+        var programList = new List<ProgramData>(unlockedProgramIds.Count);
 
-        for(int i=0, iMax = unlockedIds.Count; i<iMax; i++)
+        for(int i=0, iMax = unlockedProgramIds.Count; i<iMax; i++)
         {
-            var data = DataLoader.GetProgramData(unlockedIds[i]);
+            var data = DataLoader.GetProgramData(unlockedProgramIds[i]);
             programList.Add(data);
         }
-        _programPanel.Initialize(programList);
-
-        _programPanel.OnSelected += OnProgramSelected;
+        _programPanel.Initialize(programList, OnProgramSelected, OnProgramCancled);
 
         #endregion
+
+        #region Initialize Module Panel
+
+        // TODO
+        var unlockedModuleIds = _saveManager.GetUnlockedModules();
+        var moduleList = new List<CommandData>(unlockedModuleIds.Count);
+
+        for (int i = 0, iMax = unlockedModuleIds.Count; i < iMax; i++)
+        {
+            var data = DataLoader.GetCommandData(unlockedProgramIds[i]);
+            moduleList.Add(data);
+        }
+#if UNITY_EDITOR
+        _modulePanel.Initialize(DataLoader.CommandDatas, OnModuleSelected, OnModuleCancled);
+#else
+        _modulePanel.Initialize(moduleList, OnModuleSelected, OnModuleCancled);
+#endif
+
+#endregion
     }
 
-    public void OnProgramSelected(ProgramData programData)
+    private void OnProgramSelected(ProgramData programData)
     {
         _selectedProgram = programData;
+    }
+
+    private void OnProgramCancled(ProgramData programData)
+    {
+        _selectedProgram = null;
+    }
+
+    private void OnModuleSelected(CommandData commandData)
+    {
+        _selectedModules.Add(commandData);
+    }
+
+    private void OnModuleCancled(CommandData commandData)
+    {
+        if (_selectedModules.Contains(commandData))
+        {
+            _selectedModules.Remove(commandData);
+        }
     }
 
     public void OnNavigate(int direction)
@@ -64,6 +100,7 @@ public class LobbyView : MonoBehaviour
                 _programPanel.MoveFocus(direction);
                 break;
             case PANEL_INDEX.MODULE:
+                _modulePanel.MoveFocus(direction);
                 break;
             case PANEL_INDEX.BUILD:
                 break;
@@ -79,6 +116,7 @@ public class LobbyView : MonoBehaviour
                 break;
 
             case PANEL_INDEX.MODULE:
+                _modulePanel.OnExit();
                 break;
 
             case PANEL_INDEX.BUILD:
@@ -106,6 +144,7 @@ public class LobbyView : MonoBehaviour
                 break;
 
             case PANEL_INDEX.MODULE:
+                _modulePanel.OnExit();
                 break;
 
             case PANEL_INDEX.BUILD:
