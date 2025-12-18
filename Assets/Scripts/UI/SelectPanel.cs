@@ -47,8 +47,6 @@ public abstract class SelectPanel<TData, TCardView> : MonoBehaviour
 
         _scrollOffset = 0;
 
-        BindCards();
-
         OnSelected = onSelected;
         OnCancled = onCancled;
     }

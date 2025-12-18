@@ -11,4 +11,11 @@ public class EffectItemView : MonoBehaviour
     {
         _desc.text = $"- {text}";
     }
+
+    public float GetPreferredHeight()
+    {
+        var width = _desc.rectTransform.rect.width;
+        var height = _desc.GetPreferredValues(_desc.text, width, float.MaxValue).y;
+        return height;
+    }
 }

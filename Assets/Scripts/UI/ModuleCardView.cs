@@ -6,7 +6,8 @@ public class ModuleCardView : MonoBehaviour, IBindable<CommandData>
 {
     [Header("BorderLine")]
     [SerializeField] private Image _border;
-
+    [SerializeField] private RectTransform _rect;
+  
     [SerializeField] private CommandCardView _commandCard;
     [SerializeField] private Transform _patchParent;
     private List<PatchItemView> _patchList = new();
@@ -15,6 +16,23 @@ public class ModuleCardView : MonoBehaviour, IBindable<CommandData>
     {
         _commandCard.Bind(data);
         ClearPatchList();
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(_rect);
+    }
+
+    public float GetPreferredHeight()
+    {
+        var commandHeight = _commandCard.GetPreferredHeight();
+
+        var patchHeight = 0f;
+        if(_patchList.Count > 0)
+        {
+            // TODO
+        }
+
+        var padding = 20f;  // VLG padding µî
+
+        return commandHeight + patchHeight + padding;
     }
 
     private void ClearPatchList()

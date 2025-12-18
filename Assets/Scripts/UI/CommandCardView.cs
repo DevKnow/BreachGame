@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class CommandCardView : MonoBehaviour, IBindable<CommandData>
 {
+    [SerializeField] private RectTransform _rect;
+
     [Header("HeaderSection")]
     [SerializeField] private Image _icon;
     [SerializeField] private TextMeshProUGUI _name;
@@ -64,6 +66,29 @@ public class CommandCardView : MonoBehaviour, IBindable<CommandData>
         {
             SetEffectSectionVisible(false);
         }
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(_rect);
+    }
+
+    public float GetPreferredHeight()
+    {
+        // 헤더 영역 (이름, 코스트 등) - 고정
+        var headerHeight = 50f;
+
+        // Effect 텍스트 높이 - TMP로 계산
+        var effectHeight = 0f;
+        if(_effectList.Count > 0)
+        {
+            for(int i = 0, iMax = _effectList.Count; i<iMax; i++)
+            {
+                effectHeight += _effectList[i].GetPreferredHeight();
+                effectHeight += 10f;
+            }
+        }
+
+        var padding = 20f;
+
+        return headerHeight + effectHeight + padding;
     }
 
     private void SetAttackStatsVisible(bool visible)

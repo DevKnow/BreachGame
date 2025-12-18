@@ -1,19 +1,26 @@
+using UnityEngine;
 using System;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine.UI;
 
 public class ModuleSelectPanel : SelectPanel<CommandData, ModuleCardView>
 {
-    private List<int> _selectedIndices;
+    /// </summary>
+    [SerializeField] protected RectTransform _rect;
 
     private const int MAX_SELECTION = 2;
+
+    private List<int> _selectedIndices;
 
     public override void Initialize(List<CommandData> availableDatas, Action<CommandData> onSelected, Action<CommandData> onCancled)
     {
         base.Initialize(availableDatas, onSelected, onCancled);
 
         _selectedIndices ??= new List<int>(MAX_SELECTION);
-
         _selectedIndices.Clear();
+
+        BindCards();
 
         RefreshCardsState();
     }

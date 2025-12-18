@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _border: {fileID: 790911231716762500}
+  _rect: {fileID: 4994374364116399865}
   _commandCard: {fileID: 6359681912230217259}
   _patchParent: {fileID: 2261425495565611442}
 --- !u!1 &3672254963251415358
