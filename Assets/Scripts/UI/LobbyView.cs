@@ -40,7 +40,7 @@ public class LobbyView : MonoBehaviour
         var unlockedProgramIds = _saveManager.GetUnlockedPrograms();
         var programList = new List<ProgramData>(unlockedProgramIds.Count);
 
-        for(int i=0, iMax = unlockedProgramIds.Count; i<iMax; i++)
+        for (int i=0, iMax = unlockedProgramIds.Count; i<iMax; i++)
         {
             var data = DataLoader.GetProgramData(unlockedProgramIds[i]);
             programList.Add(data);
@@ -52,16 +52,18 @@ public class LobbyView : MonoBehaviour
         #region Initialize Module Panel
 
         // TODO
-        var unlockedModuleIds = _saveManager.GetUnlockedModules();
-        var moduleList = new List<CommandData>(unlockedModuleIds.Count);
+        var unlockedModuleIds = DataLoader.CommandDatas; //_saveManager.GetUnlockedModules();
+        var randomModules = unlockedModuleIds.GetRandomElements(_modulePanel.Count);
+        var moduleList = new List<CommandData>(randomModules.Count);
 
-        for (int i = 0, iMax = unlockedModuleIds.Count; i < iMax; i++)
+        for (int i = 0, iMax = randomModules.Count; i < iMax; i++)
         {
-            var data = DataLoader.GetCommandData(unlockedProgramIds[i]);
+            var data = randomModules[i];
+            //var data = DataLoader.GetCommandData(randomModules[i]);
             moduleList.Add(data);
         }
 #if UNITY_EDITOR
-        _modulePanel.Initialize(DataLoader.CommandDatas, OnModuleSelected, OnModuleCancled);
+        _modulePanel.Initialize(moduleList, OnModuleSelected, OnModuleCancled);
 #else
         _modulePanel.Initialize(moduleList, OnModuleSelected, OnModuleCancled);
 #endif

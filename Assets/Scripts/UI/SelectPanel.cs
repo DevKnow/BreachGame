@@ -28,7 +28,7 @@ public abstract class SelectPanel<TData, TCardView> : MonoBehaviour
     protected int _focusIndex = -1;
 
     private int _count = 0;
-    protected int Count
+    public int Count
     {
         get
         {
